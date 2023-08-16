@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./app.css">
+    <title>QR Mail Generator</title>
+</head>
+<body>
+    <div class="flex-container">
+    <div class="no-print">
+        <form id="form" method="post">
+               <!--  Form contents -->
+        </form>
+
+        <button type="submit" form="form">QR Codes erstellen</button>
+        <button id="print">Drucken</button>
+        <button id="reset" class="btn-danger">Zurücksetzen</button>
+
+    </div>
+
+    <div class="grid">
+        <!-- QR Codes go here -->
+
+    </div>
+</div>
+</body>
+
+<script>
+
+    const CODE_COUNT = 21;
+
+    const qrDetails = {
+        mail: 'ukr-az@caritas-wien.at',
+        size: 300,
+        format: 'svg',
+        qzone: 2,
+        gvs: '000000'
+    };
+
+    const form = document.getElementById('form');
+    const btnPrint = document.getElementById('print').addEventListener('click', () => window.print());
+
+    const grid = document.querySelector('.grid');
+
+    const generateQr = (data) => {
+        const gridElement = document.createElement('div');
+        gridElement.className = 'label';
+        gridElement.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?data=mailto:${data.mail}?subject=${data.gvs}&size=${data.sizel}x${data.sizel}&format=${data.svg}&qzone=${data.qzone}" alt="QR-Code">
+              <p>GVS ${data.gvs}</p>`;
+
+        gridElement.addEventListener('click', () => gridElement.classList.toggle('selected'));
+
+        return gridElement;
+    }
+
+    const setup = () => {
+
+        form.innerHTML = '';
+        grid.innerHTML = '';
+
+        for (let i = 0; i < CODE_COUNT; i++) {
+
+            const formGroup = document.createElement('div');
+            formGroup.className = 'form-group';
+
+            const formLabel = document.createElement('label');
+            formLabel.htmlFor = `gvs-${i+1}`;
+            formLabel.innerText = `GVS Zahl ${i+1}`;
+            const formInput = document.createElement('input');
+            formInput.type = 'number';
+            formInput.name = `gvs-${i+1}`;
+            formInput.max = '999999';
+
+
+            formGroup.appendChild(formLabel);
+            formGroup.appendChild(formInput);
+
+            form.appendChild(formGroup);
+
+            grid.appendChild(generateQr(qrDetails));
+        }
+
+        const focusElement = document.querySelector('input[name=gvs-1]');
+        focusElement.focus();
+    }
+
+    const handleQR = (data) => {
+        grid.innerHTML = '';
+        for (const key in data) {
+            const gvs = data[key] === '' ? '000000' : data[key];
+            grid.appendChild(generateQr({...qrDetails, gvs}));
+        }
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.target).entries());
+        handleQR(data);
+    }
+
+    form.addEventListener('submit', handleSubmit);
+    document.addEventListener('DOMContentLoaded', setup);
+    const btnReset = document.getElementById('reset').addEventListener('click', setup);
+
+</script>
+</html>

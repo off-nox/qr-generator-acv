@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+ html, * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+:root {
+    --label-height: calc(297mm/7.5);
+}
+
+.grid {
+    width: 210mm;
+    max-width: 210mm;
+    height: 270mm;
+    max-height: 270mm;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: var(--label-height) var(--label-height) var(--label-height) var(--label-height) var(--label-height) var(--label-height) var(--label-height);
+    margin: auto;
+    grid-row-gap: 2.5mm;
+}
+
+img {
+    max-width: 30mm;
+    max-height: 30mm;
+}
+
+.label {
+    cursor: 'pointer';
+}
+
+.label {
+    justify-self: center;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    max-height: var(--label-height);
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
+}
+
+.label p {
+    margin-top: 1.5mm;
+}
+
+
+#form {
+    max-height: 75vh;
+    display: flex;
+    flex-flow: column wrap;
+}
+
+#form label, input {
+    margin-left: 20px;
+    margin-top: 5px;
+    font-family: 'Roboto', sans-serif;
+}
+
+#form input {
+    height: 30px;
+    border: 2px solid lightslategrey;
+    border-radius: 5px;
+    padding-left: 10px;
+}
+
+.form-group {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+button {
+    display: block;
+    border: 2px solid cornflowerblue;
+    background: none;
+    margin-left: 20px;
+    padding: 5px;
+    border-radius: 5px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    color: cornflowerblue;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 25px;
+}
+
+button:hover {
+    color: steelblue;
+    border-color: steelblue;
+}
+
+.btn-danger {
+    color: lightcoral;
+    border-color: lightcoral;
+}
+
+.btn-danger:hover {
+    color: coral;
+    border-color: coral;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.selected {
+    border: 2px dotted coral;
+    border-radius: 5px;
+}
+
+@media print {
+    .no-print {
+        display: none;
+    }
+    /* added to hide footnotes and header when printing */
+    @page {
+        margin: 0 !important;
+    }
+    body {
+        padding-top: 2mm;
+    }
+    .selected {
+        opacity: 0;
+    }
+}
